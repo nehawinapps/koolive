@@ -20,12 +20,13 @@ $endTime = strtotime("+1 hour", strtotime($assign_time)); // 4mints added to dat
 $n_time= date('H:i:s', $endTime);
 // echo $n_time;
 
-//
 
 if (empty($_SESSION["langfile"])) { $_SESSION["langfile"] = "english"; }
     require_once ("languages/".$_SESSION["langfile"].".php");
+
 $query="SELECT order_list.*,u.name as merchant_name,u.mobile_number as merchant_mobile_number from order_list inner join 
-users as u on u.id=order_list.merchant_id WHERE vtime<='$n_time' && vdate<=CURDATE()  order by order_list.id desc limit 0,100  ";
+users as u on u.id=order_list.merchant_id WHERE vdate >= CURRENT_DATE && w_status > 0 order by order_list.id desc limit 0,100  ";
+
 $current_time = date('Y-m-d H:i:s');
 function ceiling($number, $significance = 1)
 {
@@ -117,37 +118,11 @@ function ceiling($number, $significance = 1)
                                 <?php echo '<br>'; echo $new_time[1] ?>
                                 <?php 
                                   if($row['status'] == 0 ){?>
-<script>
-var timeleft = 90;
-var downloadTimer = setInterval(function(){
-  if(timeleft <= 0){
-    clearInterval(downloadTimer);
-    document.getElementById("<?=$row['product_id']?>").innerHTML = "Finished";
-  } else {
-    document.getElementById("<?=$row['product_id']?>").innerHTML = timeleft + " seconds";
-  }
-  timeleft--;
-
-  $.ajax({
-			url: "update_timer.php",
-			type: "POST",
-			cache: false,
-			data:{
-				id: $('#p<?=$row['product_id']?>').val(),
-				time: timeleft,
-			},
-			success: function(dataResult){
-				// alert(dataResult);
-			}
-		});
-
-}, 1000);
-</script>		<input type="hidden" value="<?=$row['product_id']?>" id="p<?=$row['product_id']?>" >		
-				<p style="color: red;" id="<?=$row['product_id']?>" >
-								</p>
-								<p style="color: red;" id="<?=$row['product_id']?>" >
+		
+				<p style="color: red;">
 
 								</p>
+				
 
 								<?php 
                                   }?>

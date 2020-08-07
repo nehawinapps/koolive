@@ -58,21 +58,17 @@ function ceiling($number, $significance = 1)
   <table class="table">
     <thead>
       <tr>
+
         <th>S.No</th>
 		<th>Rider info</th>
 		<th>Rider name</th>
-        
-     <th>Order Remark</th>
-         <th>Order Status</th>
-        
-			<th>Merchant Detail</th>
-			
-			<th>Merchant Remark</th>
-			<th>DATE OF ORDER</th>
+     	<th>Order Remark</th>
+        <th>Order Status</th>
+		<th>Merchant Detail</th>
+		<th>Merchant Remark</th>
+		<th>DATE OF ORDER</th>
         <th>Merchant Address </th>
-      
-		
-		   
+           
       </tr>
     </thead>
     <tbody>

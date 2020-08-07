@@ -66,6 +66,7 @@ $id=$_SESSION['id'];
         <th>Location</th>
         <th>Ratings</th>
         <th>Comments</th>
+        <th>Change Status</th>
       </tr>
 <?php
 
@@ -97,6 +98,7 @@ $i=1;
         <td><?php echo $row['work_area'];?></td>
         <td><?php echo $row['rating'];?></td>
         <td><?php echo $row['comments'];?></td>
+        <td><a href="#" class="btn btn-danger">Delivered</a></td>
         
       </tr>
       

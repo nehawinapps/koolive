@@ -18,12 +18,12 @@ $query2="SELECT * FROM rider WHERE assign_job='true'";
 $res=mysqli_query($conn,$query2);
 while($row=mysqli_fetch_array($res))
 {	
-	echo $r_name=$row['name']."<br>";
-	echo $r_code=$row['rider_code']."<br>";
+	// echo $r_name=$row['name']."<br>";
+	// echo $r_code=$row['rider_code']."<br>";
 	
 }
 
-echo $r_code;
+// echo $r_code;
 
 
 
@@ -32,26 +32,26 @@ echo $r_code;
 date_default_timezone_set('Asia/Kolkata');
 
 $assign_time = date('H:i:s');
-echo $assign_time."<br>";
+// echo $assign_time."<br>";
 
 
 
 $endTime = strtotime("+3 hours ", strtotime($assign_time)); // 4mints added to databse time
 $n_time= date('H:i:s', $endTime);
-echo $n_time;
-echo "n time";
+// echo $n_time;
+// echo "n time";
 
 
 // //adding 90 sec 
 $a=array();
 $k=0;
-$sql="SELECT * FROM order_list WHERE vtime>='$n_time'  ";
+$sql="SELECT * FROM order_list WHERE vtime>='$n_time' ";
 $n=mysqli_query($conn,$sql);
 while($col=mysqli_fetch_array($n))
 {
-	echo $v_time= $col['vtime'];
-	 $p= $col['product_id'];
-	 echo "vtime<br>";
+	$v_time= $col['vtime'];
+	$p= $col['product_id'];
+	echo "vtime<br>";
 }
 
 
@@ -60,7 +60,7 @@ while($col=mysqli_fetch_array($n))
 //echo "90 sec<br>";
 $end = strtotime("+90 sec", strtotime($v_time)); // 4mints added to databse time
 $ninty_sec= date('H:i:s', $end);
-echo $ninty_sec;
+// echo $ninty_sec;
 // echo "<br>hey timer";  //new time after added 90 sec
 
 
@@ -124,7 +124,7 @@ if (empty($_SESSION["langfile"])) { $_SESSION["langfile"] = "english"; }
     require_once ("languages/".$_SESSION["langfile"].".php");
 
 	$query="SELECT * FROM users 
-	INNER JOIN order_list ON users.id=order_list.user_id where vtime >='$n_time'";
+	INNER JOIN order_list ON users.id=order_list.user_id where w_status = 0 and status != 2";
 $current_time = date('Y-m-d H:i:s');
 function ceiling($number, $significance = 1)
 {
@@ -145,11 +145,6 @@ function ceiling($number, $significance = 1)
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="jquery-1.8.0.min.js"></script>
-
-<style>
-
-</style>
-
 
 <script>
 $(document).ready(function(){
@@ -261,7 +256,7 @@ $('.play').on('click', function(e)
 
 <?php
 		 $pid= $r['product_id'] ; 
-		 echo $pid;
+		 // echo $pid;
 		 
 
 	
@@ -278,15 +273,15 @@ $query2="SELECT * FROM rider WHERE assign_job='true'";
 $res=mysqli_query($conn,$query2);
 while($row=mysqli_fetch_array($res))
 {	
-	echo $r_name=$row['name'];
+	// echo $r_name=$row['name'];
 	$r_code=$row['rider_code'];
 	
 }
 
 
-echo "hey";
-echo $ninty_sec;
-echo $pid;
+// echo "hey";
+// echo $ninty_sec;
+// echo $pid;
 
 //echo "order assign to".$r_name;
 
@@ -312,7 +307,55 @@ echo $pid;
                                 <?php echo '<br>'; echo $new_time[1] ?>
                                 <?php 
                                   if($row['status'] == 0 ){?>
-								<p style="color: red;"></div></p> <?php 
+								<p style="color: red;">
+<?php 
+      	date_default_timezone_set("Asia/Kolkata");
+
+      		$stime = $r['vtime'];
+      		$ctime = date('H:i:s');
+      		$etime = date('H:i:s', strtotime($stime.'+90 seconds'));
+      		// echo $etime.'<br>'.$stime;die;
+      		if($ctime >= $stime && $ctime <= $etime){
+      			
+      			?>
+      					
+<script>
+var timeleft = 90;
+var downloadTimer = setInterval(function(){
+  if(timeleft <= 0){
+    clearInterval(downloadTimer);
+    document.getElementById("countdown").innerHTML = "Expired";
+  } else {
+    document.getElementById("countdown").innerHTML = timeleft + " sec";
+  }
+  timeleft--;
+
+  // $.ajax({
+		// 	url: "update_timer.php",
+		// 	type: "POST",
+		// 	cache: false,
+		// 	data:{
+		// 		id: $('#p<?=$row['product_id']?>').val(),
+		// 		time: timeleft,
+		// 	},
+		// 	success: function(dataResult){
+		// 		// alert(dataResult);
+		// 	}
+		// });
+
+}, 1000);
+</script>
+<span id="countdown"></span>
+
+      			<?php
+      		}
+      		else
+      		{
+      			echo "Expired";
+      		}
+?>
+
+									</div></p> <?php 
                                   }?>
                             </td>
 		<td  style="font-size:18px;" class="s_order_detail btn btn-blue" total_bill="<?php echo number_format($total_bill,2); ?>" order_id='<?php echo $row['id']; ?>'><?php echo $language['detail']; ?></td>
@@ -343,7 +386,7 @@ echo $pid;
 							<h4 class="modal-title">Order Detail</h4>	
 							</div>					
 							<form id ="orderdetailform">		
-							<div class="modal-body" style="padding-bottom:0px;">
+						<div class="modal-body" style="padding-bottom:0px;">
 							<div class="col-sm-10" id="orderdata">		  				
 											
 							</div>						
